@@ -10,32 +10,30 @@ window.addEventListener('resize', function(){
 
 function drawCircle(x, y) {
     ctx.strokeStyle = 'yellow';
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'rgb(0,' + x/(canvas.width/255) + ',' + y/(canvas.height/255) + ')';
     ctx.beginPath();
     ctx.arc(x, y, 50, 0, 2*Math.PI);
     ctx.fill();
-    ctx.stroke();
+    //ctx.stroke();
 }
 
 const ball = {
-    x: 100,
-    y: 100,
-    vx: 50,
-    vy: 60,
+    x: undefined,
+    y: undefined,
+    vx: undefined,
+    vy: undefined,
 }
 
-let fps = 10;
+let speed = 0.1;
 
-for (let i = 0; i < fps; i++) { 
-    function findLocation() {
-        ball.x = ball.x + ball.vx/fps;
-        ball.y = ball.y + ball.vy/fps;
-        if(ball.x > canvas.width-50 || ball.x < 50) {
-            ball.vx = -ball.vx;
-        }
-        if(ball.y > canvas.height-50 || ball.y < 50) {
-            ball.vy = -ball.vy;
-        }
+function findLocation() {
+    ball.x = ball.x + ball.vx*speed;
+    ball.y = ball.y + ball.vy*speed;
+    if(ball.x > canvas.width-50 || ball.x < 50) {
+        ball.vx = -ball.vx;
+    }
+    if(ball.y > canvas.height-50 || ball.y < 50) {
+        ball.vy = -ball.vy;
     }
 }
 
@@ -45,4 +43,16 @@ function animate() {
     drawCircle(ball.x, ball.y);
     requestAnimationFrame(animate);
 }
-animate();
+
+let count = 0;
+window.addEventListener('click', function(event){
+    if(count==0) {
+        ball.x = event.x;
+        ball.y = event.y;
+        ball.vx = 50;
+        ball.vy = 60;
+        count = count + 1;
+        animate();
+    }
+    document.body.style.backgroundColor = 'rgb(' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ')';
+})
