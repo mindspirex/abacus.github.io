@@ -1,6 +1,6 @@
 // connecting to HTML elements
 input = document.getElementById('inputBox');
-input.value = '0';
+input.value = '';
 question = document.getElementById('question');
 
 // main
